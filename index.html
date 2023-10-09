@@ -10,8 +10,7 @@
     <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
   </div>
   <canvas id="total_num_canvas" width="800" height="400"></canvas>
-  <canvas id="rate_canvas" width="800" height="400"></canvas>
-  <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+  <script src="node_modules/chart.js/dist/chart.umd.js"></script>
   <script>
     window.chartColors = {
       red: 'rgb(255, 99, 132)',
@@ -68,7 +67,8 @@
       [2018, 975, 791],
       [2019, 1031, 820],
       [2020, 1071, 967.5],
-      [2021, 1078, ]
+      [2022, 1193, 1014.54],
+      [2023, 1291, ]
     ];
 
     function getRate(d) {
@@ -86,7 +86,6 @@
     }
 
     var rateList = [];
-    var rateX10List = [];
     var labels = [];
     var totalList = [];
     var passedList = [];
@@ -98,7 +97,6 @@
 
       labels.push(year);
       push(rateList, {x: year, y: rate});
-      push(rateX10List, {x: year, y: rate * 10});
       push(totalList, {x: year, y: d[1]});
       push(passedList, {x: year, y: d[2]});
     }
@@ -113,18 +111,21 @@
           borderColor: window.chartColors.red,
           data: totalList,
           fill: false,
+          yAxisID: 'y',
         },{
           label: "录取人数",
           backgroundColor: window.chartColors.green,
           borderColor: window.chartColors.green,
           data: passedList,
           fill: false,
+          yAxisID: 'y',
         },{
-          label: "录取率（注：进行了缩放，百分比*10）",
+          label: "录取率（注：百分比）",
           backgroundColor: window.chartColors.grey,
           borderColor: window.chartColors.grey,
-          data: rateX10List,
+          data: rateList,
           fill: false,
+          yAxisID: 'y1',
         }]
       },
       options: {
@@ -142,65 +143,30 @@
           intersect: true
         },
         scales: {
-          xAxes: [{
+          x: {
             display: true,
             scaleLabel: {
               display: true,
               labelString: '年份'
             }
-          }],
-          yAxes: [{
+          },
+          y: {
             display: true,
             scaleLabel: {
               display: true,
-              labelString: '人数（万）'
+              position: 'left',
+              labelString: '人口（万）'
             }
-          }]
-        }
-      }
-    };
-
-    var rate_config = {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: "录取率",
-          backgroundColor: window.chartColors.blue,
-          borderColor: window.chartColors.blue,
-          data: rateList,
-          fill: false,
-        }]
-      },
-      options: {
-        responsive: true,
-        title:{
-          display:true,
-          text:'历年录取率'
-        },
-        tooltips: {
-          mode: 'index',
-          intersect: false,
-        },
-        hover: {
-          mode: 'nearest',
-          intersect: true
-        },
-        scales: {
-          xAxes: [{
+          },
+          y1: {
+            type: 'linear',
             display: true,
-            scaleLabel: {
-              display: true,
-              labelString: '年份'
-            }
-          }],
-          yAxes: [{
-            display: true,
+            position: 'right',
             scaleLabel: {
               display: true,
               labelString: '录取率（百分比）'
             }
-          }]
+          }
         }
       }
     };
@@ -208,9 +174,6 @@
     window.onload = function() {
       var total_ctx = document.getElementById("total_num_canvas").getContext("2d");
       new Chart(total_ctx, total_config);
-
-      var rate_ctx = document.getElementById("rate_canvas").getContext("2d");
-      new Chart(rate_ctx, rate_config);
     };
   </script>
   <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>

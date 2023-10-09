@@ -3,6 +3,6 @@
 	"version": "4.0.0",
 	"description": "Gaokao",
 	"dependencies": {
-		"chart.js": "^2.9.4"
+		"chart.js": "^4.4.0"
 	}
 }
